@@ -29,7 +29,7 @@ source.include_exts = py,png,jpg,kv,atlas
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.1
+version = 1.0
 
 # (str) Application versioning (method 2)
 # version.regex = __version__ = ['"](.*)['"]
@@ -101,14 +101,15 @@ android.permissions = android.permission.INTERNET, android.permission.ACCESS_NET
 #android.features = android.hardware.usb.host
 
 # (int) Target Android API, should be as high as possible.
-#android.api = 31
+android.api = 31
 
 # (int) Minimum API your APK / AAB will support.
-#android.minapi = 21
+android.minapi = 21
 
 # (int) Android SDK version to use
-#android.sdk = 20
+android.sdk = 25b
 
+android.ndk_build_flags = -g -v
 # (str) Android NDK version to use
 #android.ndk = 23b
 
@@ -287,7 +288,7 @@ android.archs = arm64-v8a, armeabi-v7a
 
 # (int) overrides automatic versionCode computation (used in build.gradle)
 # this is not the same as app version and should only be edited if you know what you're doing
-# android.numeric_version = 1
+android.numeric_version = 1
 
 # (bool) enables Android auto backup feature (Android API >=23)
 android.allow_backup = True
@@ -309,7 +310,7 @@ android.allow_backup = True
 
 # (str) The format used to package the app for debug mode (apk or aar).
 # android.debug_artifact = apk
-
+android.debuggable = 1
 #
 # Python for android (p4a) specific
 #
