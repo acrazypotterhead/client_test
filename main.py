@@ -7,9 +7,15 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 from kivy.clock import Clock
 import threading
+from kivy.utils import platform
+
 Window.size = (340, 620)
 Window.clearcolor = (46/255, 46/255, 46/255)
 
+if platform == 'android':
+    perms = ['android.permission.INTERNET']
+    from android.permissions import request_permissions
+    request_permissions(perms, None)
 
 class DataSender(protocol.Protocol):
     def send_data(self):
