@@ -10,7 +10,7 @@ import threading
 from kivy.utils import platform
 from plyer import accelerometer
 
-Window.size = (340, 620)
+#Window.size = (340, 620)
 Window.clearcolor = (46/255, 46/255, 46/255)
 
 if platform == 'android':
@@ -93,8 +93,8 @@ class FirstWindow(Screen):
             val = accelerometer.acceleration[:3]
             if val and self.protocol and self.protocol.transport:
                 x, y, z = val
-                message = f"{x:.2f},{y:.2f},{z:.2f}"
-                self.ids.data.text = f"x: {x:.2f}, y: {y:.2f}, z: {z:.2f}"
+                message = f"{x:.2f},{y:.2f},{z:.2f}\n"
+                self.ids.data.text = f"x: {x:.0f}, y: {y:.0f}, z: {z:.0f}"
                 self.protocol.transport.write(message.encode("utf-8"))
         except:
             self.ids.label_ip.text = "Erreur lors de la lecture de l'accéléromètre"
