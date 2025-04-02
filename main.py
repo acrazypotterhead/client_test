@@ -93,10 +93,10 @@ class FirstWindow(Screen):
             val = accelerometer.acceleration[:3]
             if val and self.protocol and self.protocol.transport:
                 x, y, z = val
-                x = float(x)
-                y = float(y)
-                z = float(z)
-                message = f"{x:.2f},{y:.2f},{z:.2f}\n"
+                x = int(x)
+                y = int(y)
+                z = int(z)
+                message = f"{x},{y},{z}\n"
                 self.ids.data.text = f"x: {x:.0f}, y: {y:.0f}, z: {z:.0f}"
                 self.protocol.transport.write(message.encode("utf-8"))
         except:
