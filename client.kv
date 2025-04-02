@@ -1,5 +1,7 @@
 WindowManager:
     FirstWindow:
+    SecondWindow:
+        
 
 <FirstWindow>:
     name: 'first'
@@ -46,3 +48,26 @@ WindowManager:
             on_press:
                 root.manager.current = 'second'
                 root.manager.transition.direction = 'left'
+
+<SecondWindow>:
+    name: 'second'
+    GridLayout:
+        cols: 1
+        Label: 
+            text: "Second Window"
+        
+        Jauge:
+            id: Jauge1
+            size_hint: 1,1
+            choice: "x"
+            min_value: -100
+            max_value: 100
+
+
+
+        Button:
+            text: "Go to First Window"
+            on_press: 
+                root.manager.current = 'first'
+                root.manager.transition.direction = 'right'
+    
