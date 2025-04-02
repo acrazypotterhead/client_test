@@ -19,19 +19,21 @@ if platform == 'android':
     request_permissions(perms, None)
 
 class DataSender(protocol.Protocol):
-    def send_data(self):
-        """Envoie des données aléatoires au serveur."""
-        if self.transport:
-            x = round(random.uniform(-40, 40))
-            y = round(random.uniform(-40, 40))
-            z = round(random.uniform(-40, 40))
-            message = f"{x},{y},{z}\n"
-            self.transport.write(message.encode("utf-8"))
-            reactor.callLater(0.1, self.send_data)  # Appelle la fonction toutes les 100ms
-
+    #def send_data(self):
+    #    """Envoie des données aléatoires au serveur."""
+    #    if self.transport:
+    #        x = round(random.uniform(-40, 40))
+    #        y = round(random.uniform(-40, 40))
+    #        z = round(random.uniform(-40, 40))
+    #        message = f"{x},{y},{z}\n"
+    #        self.transport.write(message.encode("utf-8"))
+    #        reactor.callLater(0.1, self.send_data)  # Appelle la fonction toutes les 100ms
+#
+    #def connectionMade(self):
+    #    print("Connecté au serveur, envoi des données...")
+    #    self.send_data()
     def connectionMade(self):
-        print("Connecté au serveur, envoi des données...")
-        self.send_data()
+        print("Connecté au serveur, prêt à recevoir les données de l'accéléromètre.")
 
 class DataSenderFactory(protocol.ClientFactory):
     def __init__(self, window):
@@ -92,7 +94,7 @@ class FirstWindow(Screen):
             if val and self.protocol and self.protocol.transport:
                 x, y, z = val
                 message = f"{x},{y},{z}\n"
-                self.ids.label.data.text = f"x: {x:.2f}, y: {y:.2f}, z: {z:.2f}"
+                self.ids.data.text = f"x: {x:.2f}, y: {y:.2f}, z: {z:.2f}"
                 self.protocol.transport.write(message.encode("utf-8"))
         except:
             self.ids.label_ip.text = "Erreur lors de la lecture de l'accéléromètre"
