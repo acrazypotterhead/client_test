@@ -8,6 +8,7 @@ from kivy.core.window import Window
 from kivy.clock import Clock
 import threading
 from kivy.utils import platform
+from plyer import accelerometer
 
 Window.size = (340, 620)
 Window.clearcolor = (46/255, 46/255, 46/255)
@@ -33,19 +34,15 @@ class DataSender(protocol.Protocol):
         self.send_data()
 
 class DataSenderFactory(protocol.ClientFactory):
-    protocol = DataSender
+    def __init__(self, window):
+        self.window = window
 
-    #def clientConnectionFailed(self, connector, reason):
-    #    print("Connexion échouée, tentative de reconnexion...")
-    #    reactor.callLater(2, connector.connect)  # Réessaie après 2 secondes
-#
-    #def clientConnectionLost(self, connector, reason):
-    #    print("Connexion perdue, tentative de reconnexion...")
-    #    reactor.callLater(2, connector.connect)  # Réessaie après 2 secondes
+    def buildProtocol(self, addr):
+        protocol_instance = DataSender()
+        self.window.protocol = protocol_instance
+        return protocol_instance
 
-# Démarre le client et connecte-le au serveur sur le port 8000
-#reactor.connectTCP("localhost", 8000, DataSenderFactory())
-#reactor.run()
+    
 
 def thread(function):
     def wrap(*args, **kwargs):
@@ -58,6 +55,8 @@ class FirstWindow(Screen):
     def __init__(self, **kwargs):
         super(FirstWindow,self).__init__(**kwargs)
         self.serv_ip = ""
+        self.sensor = False
+        self.protocol = None
 
     def set_serv_ip(self):
         self.serv_ip = self.ids.ip.text
@@ -66,11 +65,37 @@ class FirstWindow(Screen):
 
     @thread
     def connect_to_server(self, IP):
-
-        reactor.connectTCP(IP, 8000, DataSenderFactory())
+        
+        reactor.connectTCP(IP, 8000, DataSenderFactory(self))
         if not reactor.running:
             reactor.run(installSignalHandlers=False)
 
+    def toggle_accelerometer(self):
+        if not self.sensor:
+            try:
+                accelerometer.enable()
+                self.sensor = True
+            except:
+                self.ids.label_ip.text = "Erreur lors de l'activation de l'accéléromètre"
+            
+            if self.sensor:
+                Clock.schedule_interval(self.update_accelerometer, 0.1)
+                self.ids.label_ip.text = "Accéléromètre activé"
+        else:
+            accelerometer.disable()
+            Clock.unschedule(self.update_accelerometer)
+            self.sensor = False
+
+    def update_accelerometer(self, dt):
+        try:
+            val = accelerometer.acceleration[:3]
+            if val and self.protocol and self.protocol.transport:
+                x, y, z = val
+                message = f"{x},{y},{z}\n"
+                self.ids.label.data.text = f"x: {x:.2f}, y: {y:.2f}, z: {z:.2f}"
+                self.protocol.transport.write(message.encode("utf-8"))
+        except:
+            self.ids.label_ip.text = "Erreur lors de la lecture de l'accéléromètre"
 
 
 class WindowManager(ScreenManager):

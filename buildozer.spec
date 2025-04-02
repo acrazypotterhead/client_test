@@ -37,7 +37,7 @@ version = 1.0
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,twisted,matplotlib,numpy,setuptools,zope.interface,attrs
+requirements = python3,kivy,twisted,plyer,setuptools,zope.interface,attrs
 
 
 # (str) Custom source folders for requirements
