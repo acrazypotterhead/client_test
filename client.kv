@@ -2,6 +2,33 @@ WindowManager:
     FirstWindow:
     SecondWindow:
         
+<RoundedToggleButton@ToggleButton>:
+    background_color: 0, 0, 0, 0  # Cache l'arrière-plan par défaut
+    color: 1, 1, 1, 1  # Couleur du texte
+    size: self.size
+
+    canvas.before:
+        Color:
+            rgba: 79/255, 79/255, 79/255, 1  
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10,]  # Coins arrondis
+
+<RoundedButton@Button>:
+    background_color: 0, 0, 0, 0  # Cache l'arrière-plan par défaut
+    #background_normal: 'images/gris foncé.png'  # Image de fond
+    #background_down: 'images/gris clair.png'  # Image de fond lorsque le bouton est enfoncé
+    color: 1, 1, 1, 1  # Couleur du texte
+    size: self.size
+
+    canvas.before:
+        Color:
+            rgba: 79/255, 79/255, 79/255, 1  
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10,]  # Coins arrondis
 
 <FirstWindow>:
     name: 'first'
@@ -11,37 +38,65 @@ WindowManager:
         spacing: 30
         pos_hint: {'center_x': 0.5, 'center_y': 0.5}
 
-        Label:
-            id: label_ip
-            text: 'Enter server IP :'
-            size_hint: 1, 0.4
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, 0.1
+            padding: 10
+            spacing: 10
+            Label:
+                id: label_ip
+                text: 'Enter server IP :'
+
+            TextInput:
+                id: ip
+                multiline: False
+                text: "192.168.183."
+
+            Label:
+               
+                text: 'Status :'
+
+            Label:
+                id: status
+                text: 'Disconnected'
     
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, 0.1
+            padding: 10
+            spacing: 10
+
+            RoundedButton:
+                text: "Connect to server"
+                on_press: root.set_serv_ip()
+
+
+            RoundedButton:
+                id: button_gyro
+                text: 'Start Gyroscope'
+                on_press: root.toggle_accelerometer()
+
+
+        RoundedButton:
+            text: "toggle accelerometer"
+            on_press: root.ids.Jauge1.do_toggle()
+            size_hint: 1, 0.1
+            
         
-        TextInput:
-            id: ip
-            multiline: False
-            size_hint: 1, 0.4
-
-        Button:
-            text: "Connect to server"
-            on_press: root.set_serv_ip()
-            size_hint: 1, 0.2
-
-
-        Button:
-            id: button_gyro
-            text: 'Gyroscope'
-            on_press: root.toggle_accelerometer()
-            size_hint: 1, 0.2
-
+        Jauge:
+            id: Jauge1
+            size_hint: 1,1
+            choice: "x"
+            min_value: -30
+            max_value: 30
 
         Label:
             id: data
             text: 'Data'
-            size_hint: 1, 0.4
-        Button:
+            size_hint: 1, 0.1
+        RoundedButton:
             text: 'go to Second Window'
-            size_hint: 1, 0.2
+            size_hint: 1, 0.1
            
             
             
@@ -56,7 +111,7 @@ WindowManager:
         Label: 
             text: "Second Window"
 
-        Button:
+        RoundedButton:
             text: "toogle accelerometer"
             on_press: root.ids.Jauge1.do_toggle()
         
@@ -69,7 +124,7 @@ WindowManager:
 
 
 
-        Button:
+        RoundedButton:
             text: "Go to First Window"
             on_press: 
                 root.manager.current = 'first'
