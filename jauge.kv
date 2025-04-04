@@ -91,8 +91,14 @@
         id: value_max
         text: str(round(root.max_positive_value_encountered,2))
         pos: (root.pos[0] + root.width - self.width, root.pos[1])
+        size_hint: None, None
+        size: 100, 50  # Même taille que le rectangle
+     
         color: 1, 0, 0, 1
-        font_size: 20
+        font_size: 0.1 * root.size[1]
+        halign: 'center'
+        valign: 'middle'
+        text_size: self.size  # Nécessaire pour que halign/valign fonctionnent
         canvas.before: 
             Color:
                 rgba: 1, 1, 0, 1
@@ -106,10 +112,40 @@
         id: value_min
         text: str(round(root.max_negative_value_encountered,2))
         pos: root.pos[0] , root.pos[1] 
+        size_hint: None, None
+        size: 100, 50  # Même taille que le rectangle
         color: 0, 0, 1, 1
-        font_size: 20
+        font_size: 0.10 * root.size[1]
+        halign: 'center'
+        valign: 'middle'
+        text_size: self.size  # Nécessaire pour que halign/valign fonctionnent
+        canvas.before: 
+            Color:
+                rgba: 1, 1, 0, 1
+            RoundedRectangle:
+                pos: self.pos[0], self.pos[1]
+                size: 100, 50
+                radius: [10, 10, 10, 10]
 
-
+    Label:
+        id: value
+        text: str(round(root.value,2))
+        pos: (root.center_x - self.width / 2, root.y)
+        size_hint: None, None
+        size: 100, 50  # Même taille que le rectangle
+     
+        color: 0, 1, 0, 1
+        font_size: 0.1 * root.size[1]
+        halign: 'center'
+        valign: 'middle'
+        text_size: self.size  # Nécessaire pour que halign/valign fonctionnent
+        canvas.before: 
+            Color:
+                rgba: 1, 1, 0, 1
+            RoundedRectangle:
+                pos: self.pos[0], self.pos[1]
+                size: 100, 50
+                radius: [10, 10, 10, 10]
     # Bouton pour réinitialiser la valeur max
     Button:
         id: button_reset_marker

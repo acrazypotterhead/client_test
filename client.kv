@@ -43,22 +43,23 @@ WindowManager:
             size_hint: 1, 0.1
             padding: 10
             spacing: 10
-            Label:
+            Button:
                 id: label_ip
                 text: 'Enter server IP :'
 
             TextInput:
                 id: ip
                 multiline: False
-                text: "192.168.183."
+                text: " 192.168.183.27"
 
             Label:
                
                 text: 'Status :'
 
-            Label:
+            Button:
                 id: status
-                text: 'Disconnected'
+                text: "Disconnected"
+           
     
         BoxLayout:
             orientation: 'horizontal'
@@ -83,17 +84,35 @@ WindowManager:
             size_hint: 1, 0.1
             
         
-        Jauge:
-            id: Jauge1
-            size_hint: 1,1
-            choice: "x"
-            min_value: -30
-            max_value: 30
-
-        Label:
-            id: data
-            text: 'Data'
-            size_hint: 1, 0.1
+        GridLayout:
+            size: root.size
+            pos: root.pos
+            cols: 3
+            rows: 1
+            row_default_height: 600  # Hauteur par défaut des lignes
+            col_default_width: 600  # Largeur par défaut des colonnes
+            row_force_default: True  # Forcer la hauteur par défaut des lignes
+            col_force_default: True  # Forcer la largeur par défaut des colonnes
+            Jauge:
+                id: Jauge1
+                size_hint: 1,1
+                choice: "x"
+                min_value: -30
+                max_value: 30
+            
+            Jauge:
+                id: Jauge2
+                size_hint: 1,1
+                choice: "x"
+                min_value: -30
+                max_value: 30
+            Jauge:
+                id: Jauge3
+                size_hint: 1,1
+                choice: "x"
+                min_value: -30
+                max_value: 30
+        
         RoundedButton:
             text: 'go to Second Window'
             size_hint: 1, 0.1
@@ -114,9 +133,25 @@ WindowManager:
         RoundedButton:
             text: "toogle accelerometer"
             on_press: root.ids.Jauge1.do_toggle()
-        
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 10
+            padding: 10
+            Jauge:
+                id: Jauge1
+                size_hint: 1,1
+                choice: "x"
+                min_value: -30
+                max_value: 30
+            
+            Jauge:
+                id: Jauge2
+                size_hint: 1,1
+                choice: "x"
+                min_value: -30
+                max_value: 30
         Jauge:
-            id: Jauge1
+            id: Jauge3
             size_hint: 1,1
             choice: "x"
             min_value: -30

@@ -1,3 +1,4 @@
+
 from twisted.internet import reactor, protocol  
 import random  
 import time 
@@ -24,8 +25,15 @@ if platform == 'android':
 
 # Classe définissant le protocole pour la connexion avec le serveur
 class DataSender(protocol.Protocol):
-    def connectionMade(self): 
-        print("Connecté au serveur, prêt à recevoir les données de l'accéléromètre.")
+    def __init__(self, window):
+        self.window = window 
+
+    def connectionMade(self):  
+        self.window.ids.status.text = "Connected"
+
+    
+    def connectionLost(self, reason):
+        self.window.ids.status.text = "Disconnected"  
 
 # Classe définissant la fabrique pour la gestion de la connexion client
 class DataSenderFactory(protocol.ClientFactory):
@@ -33,7 +41,7 @@ class DataSenderFactory(protocol.ClientFactory):
         self.window = window  # Référence à la fenêtre pour mise à jour
 
     def buildProtocol(self, addr):
-        protocol_instance = DataSender()
+        protocol_instance = DataSender(self.window)
         self.window.protocol = protocol_instance  # Stockage de l'instance du protocole
         return protocol_instance
 
@@ -52,6 +60,7 @@ class FirstWindow(Screen):
         self.serv_ip = ""  # Stocke l'adresse IP du serveur
         self.sensor = False  # Indique si l'accéléromètre est activé ou non
         self.protocol = None  # Stocke l'instance du protocole réseau
+        self.text_status = "disconnect"
 
     def set_serv_ip(self):
         self.serv_ip = self.ids.ip.text  # Récupère l'adresse IP entrée par l'utilisateur
@@ -59,9 +68,18 @@ class FirstWindow(Screen):
 
     @thread  # Exécute la connexion au serveur dans un thread séparé
     def connect_to_server(self, IP):
-        reactor.connectTCP(IP, 8000, DataSenderFactory(self))  # Connexion au serveur via Twisted
+          # Mise à jour de l'état de connexion
+        reactor.connectTCP("localhost", 8000, DataSenderFactory(self))  # Connexion au serveur via Twisted
+        
+        #self.ids.status.text = f"Connexion au serveur..."  # Mise à jour de l'interface
         if not reactor.running:
             reactor.run(installSignalHandlers=False)  # Démarrage du réacteur Twisted
+
+    def update_status_text(self, new_text):
+        def _update(dt):
+            self.ids.status.text = new_text
+            self.ids.status.texture_update()  # <== Forcer le recalcul du rendu
+        Clock.schedule_once(_update)
 
     def toggle_accelerometer(self):
         if not self.sensor:
@@ -72,6 +90,7 @@ class FirstWindow(Screen):
                 self.ids.label_ip.text = "Erreur lors de l'activation de l'accéléromètre"
             
             if self.sensor:
+                
                 Clock.schedule_interval(self.update_accelerometer, 0.1)  # Mise à jour toutes les 0.1 secondes
                 self.ids.label_ip.text = "Accéléromètre activé"
         else:
