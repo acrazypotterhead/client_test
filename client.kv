@@ -81,6 +81,8 @@ WindowManager:
         RoundedButton:
             text: "toggle accelerometer"
             on_press: root.ids.Jauge1.do_toggle()
+            on_press: root.ids.Jauge2.do_toggle()
+            on_press: root.ids.Jauge3.do_toggle()
             size_hint: 1, 0.1
             
         
@@ -89,8 +91,8 @@ WindowManager:
             pos: root.pos
             cols: 2
             rows: 1
-            row_default_height: 350  # Hauteur par défaut des lignes
-            col_default_width: 350  # Largeur par défaut des colonnes
+            row_default_height: 500  # Hauteur par défaut des lignes
+            col_default_width: 500  # Largeur par défaut des colonnes
             row_force_default: True  # Forcer la hauteur par défaut des lignes
             col_force_default: True  # Forcer la largeur par défaut des colonnes
             Jauge:
@@ -103,7 +105,7 @@ WindowManager:
             Jauge:
                 id: Jauge2
                 size_hint: 1,1
-                choice: "x"
+                choice: "y"
                 min_value: -30
                 max_value: 30
         GridLayout:
@@ -111,14 +113,14 @@ WindowManager:
             pos: root.pos
             cols: 1
             rows: 1
-            row_default_height: 350  # Hauteur par défaut des lignes
-            col_default_width: 350  # Largeur par défaut des colonnes
+            row_default_height: 500  # Hauteur par défaut des lignes
+            col_default_width: 500  # Largeur par défaut des colonnes
             row_force_default: True  # Forcer la hauteur par défaut des lignes
             col_force_default: True
             Jauge:
                 id: Jauge3
                 size_hint: 1,1
-                choice: "x"
+                choice: "z"
                 min_value: -30
                 max_value: 30
             
@@ -139,34 +141,7 @@ WindowManager:
         Label: 
             text: "Second Window"
 
-        RoundedButton:
-            text: "toogle accelerometer"
-            on_press: root.ids.Jauge1.do_toggle()
-        BoxLayout:
-            orientation: 'horizontal'
-            spacing: 10
-            padding: 10
-            Jauge:
-                id: Jauge1
-                size_hint: 1,1
-                choice: "x"
-                min_value: -30
-                max_value: 30
-            
-            Jauge:
-                id: Jauge2
-                size_hint: 1,1
-                choice: "x"
-                min_value: -30
-                max_value: 30
-        Jauge:
-            id: Jauge3
-            size_hint: 1,1
-            choice: "x"
-            min_value: -30
-            max_value: 30
-
-
+        
 
         RoundedButton:
             text: "Go to First Window"
