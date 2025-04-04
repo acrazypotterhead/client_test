@@ -87,10 +87,10 @@ WindowManager:
         GridLayout:
             size: root.size
             pos: root.pos
-            cols: 3
+            cols: 2
             rows: 1
-            row_default_height: 600  # Hauteur par défaut des lignes
-            col_default_width: 600  # Largeur par défaut des colonnes
+            row_default_height: 350  # Hauteur par défaut des lignes
+            col_default_width: 350  # Largeur par défaut des colonnes
             row_force_default: True  # Forcer la hauteur par défaut des lignes
             col_force_default: True  # Forcer la largeur par défaut des colonnes
             Jauge:
@@ -106,13 +106,22 @@ WindowManager:
                 choice: "x"
                 min_value: -30
                 max_value: 30
+        GridLayout:
+            size: root.size
+            pos: root.pos
+            cols: 1
+            rows: 1
+            row_default_height: 350  # Hauteur par défaut des lignes
+            col_default_width: 350  # Largeur par défaut des colonnes
+            row_force_default: True  # Forcer la hauteur par défaut des lignes
+            col_force_default: True
             Jauge:
                 id: Jauge3
                 size_hint: 1,1
                 choice: "x"
                 min_value: -30
                 max_value: 30
-        
+            
         RoundedButton:
             text: 'go to Second Window'
             size_hint: 1, 0.1
