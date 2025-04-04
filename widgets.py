@@ -220,7 +220,8 @@ class Jauge(Widget):
     
             if not val == (None, None, None):
                 if self.choice == "x":
-                    self.value = val[0]
+                    #self.value = val[0]
+                    self.round_value(val[0])
                 elif self.choice == "y":
                     self.value = val[1]
                 elif self.choice == "z":
