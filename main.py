@@ -69,7 +69,7 @@ class FirstWindow(Screen):
     @thread  # Exécute la connexion au serveur dans un thread séparé
     def connect_to_server(self, IP):
           # Mise à jour de l'état de connexion
-        reactor.connectTCP("localhost", 8000, DataSenderFactory(self))  # Connexion au serveur via Twisted
+        reactor.connectTCP(IP, 8000, DataSenderFactory(self))  # Connexion au serveur via Twisted
         
         #self.ids.status.text = f"Connexion au serveur..."  # Mise à jour de l'interface
         if not reactor.running:

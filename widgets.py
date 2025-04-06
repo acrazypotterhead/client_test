@@ -35,7 +35,7 @@ class Jauge(Widget):
     file_background_color = StringProperty("images/fond 4.png")
     file_value_marker_positive = StringProperty("images/trait_rouge.png")
     file_value_marker_negative = StringProperty("images/trait_bleu.png")
-    file_center = StringProperty("images/centre 2.png")
+
 
     # Taille et couleur des segments 
     segment_color = StringProperty('FFFFFF')
